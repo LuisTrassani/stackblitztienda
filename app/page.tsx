@@ -7,9 +7,9 @@ export default function Casacón() {
   // --- ESTADOS ---
   const [productos, setProductos] = useState<any[]>([]);
   const [carrito, setCarrito] = useState<any[]>([]);
-  const [cargando, setCargando] = useState(true);
-  const [busqueda, setBusqueda] = useState(""); 
-  const [tallesSeleccionados, setTallesSeleccionados] = useState({});
+  const [cargando, setCargando] =useState<any[]>([]);
+  const [busqueda, setBusqueda] = useState<any[]>([]); 
+  const [tallesSeleccionados, setTallesSeleccionados] = useState<any[]>([]);
 
   // --- TRAER DATOS DE SUPABASE ---
   useEffect(() => {

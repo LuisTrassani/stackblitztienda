@@ -5,8 +5,8 @@ import { supabase } from './supabase';
 
 export default function Casacón() {
   // --- ESTADOS ---
-  const [productos, setProductos] = useState([]);
-  const [carrito, setCarrito] = useState([]);
+  const [productos, setProductos] = useState<any[]>([]);
+  const [carrito, setCarrito] = useState<any[]>([]);
   const [cargando, setCargando] = useState(true);
   const [busqueda, setBusqueda] = useState(""); 
   const [tallesSeleccionados, setTallesSeleccionados] = useState({});

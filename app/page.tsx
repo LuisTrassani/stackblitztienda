@@ -3,11 +3,36 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './supabase'; 
 
+// Esto le dice a TypeScript qué esperar de la base de datos
+interface Producto {
+  id: number;
+  nombre: string;
+  precio: number;
+  imagen_url: string; // Asegúrate de que estos nombres coincidan con tus columnas en Supabase
+  descripcion?: string; 
+}
+const cargarProductos = async () => {
+  try {
+    // Le decimos a Supabase que el resultado debe ser un arreglo de Producto
+    const { data, error } = await supabase
+      .from('Productos')
+      .select('*');
+
+    if (error) throw error;
+
+    if (data) {
+      setProductos(data as Producto[]); // El "as Producto[]" es el toque final de seguridad
+    }
+  } catch (error: any) {
+    console.error("Error cargando productos:", error.message);
+  }
+};
+
 export default function Casacón() {
   // --- ESTADOS ---
-  const [productos, setProductos] = useState<any[]>([]);
+  const [productos, setProductos] = useState<Producto[]>([]);
   const [carrito, setCarrito] = useState<any[]>([]);
-  const [cargando, setCargando] =useState<any[]>([]);
+  const [cargando, setCargando] = useState<any[]>([]);
   const [busqueda, setBusqueda] = useState<any[]>([]); 
   const [tallesSeleccionados, setTallesSeleccionados] = useState<any[]>([]);
 

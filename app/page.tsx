@@ -17,6 +17,7 @@ interface Producto {
   stock_l?: number;
   stock_xl?: number;
   stock_xxl?: number;
+  stock_xxxl?: number;
 }
 
 export default function Casacon() {
@@ -173,7 +174,7 @@ export default function Casacon() {
               <p className="text-2xl font-black mb-4">${prod.precio.toLocaleString('es-AR')}</p>
               
               <div className="flex gap-1 mb-4">
-  {['S', 'M', 'L', 'XL', 'XXL'].map((t) => {
+  {['S', 'M', 'L', 'XL', 'XXL', 'XXXL'].map((t) => {
     // Verificamos si hay stock para ese talle específico en el objeto 'prod'
     const stockClave = `stock_${t.toLowerCase()}` as keyof Producto;
     const tieneStock = (prod[stockClave] as number) > 0;

@@ -27,6 +27,8 @@ export default function Casacon() {
   const [orden, setOrden] = useState<string>("default");
   const [tallesSeleccionados, setTallesSeleccionados] = useState<Record<number, string>>({});
   const [imagenSeleccionada, setImagenSeleccionada] = useState<Record<number, string>>({});
+  const [verTalles, setVerTalles] = useState(false);
+  const [verCuidados, setVerCuidados] = useState(false);
 
   useEffect(() => {
     async function cargarDatos() {
@@ -108,20 +110,34 @@ export default function Casacon() {
       </div>
 
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50 p-4">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-4xl font-black italic uppercase tracking-tighter">Casacón</h1>
-          <div onClick={irAlCheckout} className="bg-black text-white px-6 py-2 rounded-2xl cursor-pointer hover:scale-105 transition-all text-right">
-             <span className="text-[10px] font-bold opacity-60 block">CARRITO 🛒</span>
-             <span className="text-xl font-black">${total.toLocaleString('es-AR')}</span>
-          </div>
-        </div>
-      </header>
+  <div className="max-w-6xl mx-auto flex justify-between items-center h-20 md:h-24">
+    
+    {/* LOGO RECORTADO - AHORA SÍ SE VE GRANDE */}
+    <div className="h-full flex items-center py-2">
+      <img 
+        src="https://lstaiadjehagsvyjhgvf.supabase.co/storage/v1/object/sign/CASACON/casaconLOGO1.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xODliMTNiYy1kMGU3LTQ4NmUtYmNmNi02NWIyMWFhMzE0ZmEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJDQVNBQ09OL2Nhc2Fjb25MT0dPMS5wbmciLCJpYXQiOjE3NzU2MjU5NzQsImV4cCI6MTgwNzE2MTk3NH0.dQaw-v8Kt04NxykwRgouQ7qLk0Fm-1TsBQ_1GpUVQsU" 
+        alt="Casacón" 
+        className="h-full w-auto object-contain cursor-pointer hover:scale-105 transition-transform duration-300" 
+      />
+    </div>
+
+    {/* CARRITO A LA DERECHA */}
+    <div 
+      onClick={irAlCheckout} 
+      className="bg-black text-white px-5 py-2 md:px-8 md:py-3 rounded-2xl cursor-pointer hover:scale-105 transition-all text-right shadow-[4px_4px_0px_0px_rgba(219,39,119,1)] flex flex-col justify-center"
+    >
+       <span className="text-[10px] font-bold opacity-60 block uppercase leading-none mb-1">Tu Selección 🛒</span>
+       <span className="text-xl md:text-2xl font-black leading-none">${total.toLocaleString('es-AR')}</span>
+    </div>
+
+  </div>
+</header>
 
       <main className="max-w-6xl mx-auto px-4 py-10">
         {/* Buscador y Filtros */}
         <div className="mb-12 max-w-2xl mx-auto flex flex-col md:flex-row gap-4">
           <input 
-            type="text" placeholder="🔍¿Qué casaca buscas hoy?..." 
+            type="text" placeholder="🔍¿Qué camiseta buscas hoy?..." 
             className="flex-grow border-4 border-black p-5 rounded-2xl font-bold shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] outline-none"
             onChange={(e) => setBusqueda(e.target.value)}
           />
@@ -157,16 +173,38 @@ export default function Casacon() {
               <p className="text-2xl font-black mb-4">${prod.precio.toLocaleString('es-AR')}</p>
               
               <div className="flex gap-1 mb-4">
-                {['S', 'M', 'L', 'XL', 'XXL'].map((t) => (
-                  <button key={t} onClick={() => seleccionarTalle(prod.id, t)} className={`flex-1 text-[10px] font-bold py-1 rounded-lg border-2 ${tallesSeleccionados[prod.id] === t ? 'bg-black text-white border-black' : 'border-gray-100'}`}>
-                    {t}
-                  </button>
-                ))}
-              </div>
+  {['S', 'M', 'L', 'XL', 'XXL'].map((t) => {
+    // Verificamos si hay stock para ese talle específico en el objeto 'prod'
+    const stockClave = `stock_${t.toLowerCase()}` as keyof Producto;
+    const tieneStock = (prod[stockClave] as number) > 0;
 
-              <button onClick={() => agregarAlCarrito(prod)} className="w-full bg-pink-600 text-white font-black py-3 rounded-2xl uppercase text-[10px] hover:bg-black transition-all">
-                Agregar
-              </button>
+    return (
+      <button 
+        key={t} 
+        disabled={!tieneStock} // Si no hay stock, el botón no se puede clickear
+        onClick={() => seleccionarTalle(prod.id, t)} 
+        className={`flex-1 text-[10px] font-bold py-1 rounded-lg border-2 transition-all
+          ${!tieneStock 
+            ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed opacity-50' // Estilo Sin Stock
+            : tallesSeleccionados[prod.id] === t 
+              ? 'bg-black text-white border-black' // Estilo Seleccionado
+              : 'border-gray-100 hover:border-black' // Estilo Disponible
+          }`}
+      >
+        {t}
+        {!tieneStock && <span className="block text-[8px]">no disp</span>}
+      </button>
+    );
+  })}
+</div>
+
+<button 
+  onClick={() => agregarAlCarrito(prod)} 
+  // Si no hay ningún talle con stock, podrías deshabilitar todo el producto
+  className="w-full bg-pink-600 text-white font-black py-3 rounded-2xl uppercase text-[10px] hover:bg-black transition-all disabled:bg-gray-300 disabled:cursor-not-allowed"
+>
+  {tallesSeleccionados[prod.id] ? 'Agregar al carrito' : 'Selecciona talle'}
+</button>
             </div>
           ))}
         </div>
@@ -235,7 +273,7 @@ export default function Casacon() {
           
           {/* Info Personal */}
           <div>
-            <h4 className="font-black italic text-3xl mb-6 uppercase tracking-tighter">Viví la experiencia Casacón</h4>
+            <h4 className="font-black italic text-3xl mb-6 uppercase tracking-tighter">Viví la experiencia Misterybox🕵️👀</h4>
             <p className="opacity-60 font-bold mb-2 text-yellow-400">Ventas por Mayor y Menor</p>
             <p className="font-black text-xl">Somos Juanchi y Luis</p>
             <p className="font-bold text-pink-500">3731652931</p>
@@ -247,8 +285,8 @@ export default function Casacon() {
             <h4 className="font-black italic text-3xl mb-6 uppercase tracking-tighter text-white">Ayuda</h4>
             <ul className="space-y-3 font-bold uppercase text-sm tracking-widest text-gray-400">
               <li className="hover:text-yellow-400 cursor-pointer transition-colors">Envíos a todo el país</li>
-              <li className="hover:text-yellow-400 cursor-pointer transition-colors">Tabla de Talles</li>
-              <li className="hover:text-yellow-400 cursor-pointer transition-colors">Cómo cuidar tu casaca</li>
+              <li onClick={() => setVerTalles(true)} className="hover:text-yellow-400 cursor-pointer transition-colors">Tabla de Talles 📏</li>
+              <li onClick={() => setVerCuidados(true)} className="hover:text-yellow-400 cursor-pointer transition-colors">Cómo cuidar tu camiseta 🧼</li>
             </ul>
           </div>
 
@@ -267,7 +305,66 @@ export default function Casacon() {
               </a>
             </div>
           </div>
+        </div>{/* VENTANA MODAL: TABLA DE TALLES - ESTILOS CORREGIDOS */}
+      {verTalles && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-white border-4 border-black p-6 rounded-[2rem] max-w-lg w-full relative shadow-[10px_10px_0px_0px_rgba(253,224,71,1)] text-left">
+            <button onClick={() => setVerTalles(false)} className="absolute -top-4 -right-4 bg-pink-600 text-white w-10 h-10 rounded-full font-black border-4 border-black cursor-pointer hover:bg-black transition-colors">X</button>
+            
+            {/* TEXTO EN NEGRO AQUÍ */}
+            <h3 className="text-2xl font-black uppercase italic mb-4 text-black">Tabla de talles 📏</h3>
+            <p className="text-[11px] font-bold text-gray-500 mb-4">* Las medidas son aproximadas y pueden variar 1 o 2 cm.</p>
+            
+            {/* Imagen de tu tabla */}
+            <div className="bg-gray-50 p-2 rounded-xl border border-gray-100">
+              <img 
+                src="https://f.fcdn.app/imgs/073f1d/www.mancini.com.uy/mancuy/6698/original/catalogo/12313131232131_12313131232131_1.jpg" 
+                alt="Tabla de talles" 
+                className="w-full rounded-lg"
+              />
+            </div>
+            
+            <button onClick={() => setVerTalles(false)} className="w-full mt-6 bg-black text-white py-3 rounded-xl font-black uppercase cursor-pointer hover:bg-pink-600 transition-all shadow-md">Entendido</button>
+          </div>
         </div>
+      )}
+
+      {/* VENTANA MODAL: CUIDADOS - ESTILOS CORREGIDOS */}
+      {verCuidados && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-white border-4 border-black p-8 rounded-[2.5rem] max-w-md w-full relative shadow-[10px_10px_0px_0px_rgba(219,39,119,1)] text-left">
+            <button onClick={() => setVerCuidados(false)} className="absolute -top-4 -right-4 bg-yellow-400 text-black w-10 h-10 rounded-full font-black border-4 border-black cursor-pointer hover:bg-black hover:text-white transition-colors">X</button>
+            
+            {/* TEXTO EN NEGRO AQUÍ */}
+            <h3 className="text-2xl font-black uppercase italic mb-6 text-black tracking-tighter">Cómo cuidar tu camiseta👕</h3>
+            
+            <ul className="space-y-4 text-left font-bold text-sm text-black">
+              <li className="flex gap-3 items-center">
+                <span className="text-lg">🧼</span> 
+                <p>Lavar siempre <strong className="text-pink-600">a mano y con agua fría</strong>.</p>
+              </li>
+              <li className="flex gap-3 items-center">
+                <span className="text-lg">🚫</span> 
+                <p>No usar lavarropas ni centrifugado (arruina parches y estampados).</p>
+              </li>
+              <li className="flex gap-3 items-center">
+                <span className="text-lg">☀️</span> 
+                <p>Secar siempre <strong className="text-yellow-500">a la sombra</strong>, nunca al sol directo.</p>
+              </li>
+              <li className="flex gap-3 items-center">
+                <span className="text-lg">💨</span> 
+                <p>Evitar el uso de suavizante, puede despegar los detalles.</p>
+              </li>
+              <li className="flex gap-3 items-center">
+                <span className="text-lg">👔</span> 
+                <p>Evita el planchado directo: usa temperatura suave y un paño de barrera para cuidar la tela.</p>
+              </li>
+            </ul>
+            
+            <button onClick={() => setVerCuidados(false)} className="w-full mt-8 bg-black text-white py-4 rounded-2xl font-black uppercase cursor-pointer hover:bg-pink-600 transition-all shadow-md">¡GRACIAS!</button>
+          </div>
+        </div>
+      )}
       </section>
 
       <footer className="bg-black text-center py-10 border-t border-gray-900">

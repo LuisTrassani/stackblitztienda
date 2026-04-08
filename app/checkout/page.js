@@ -111,8 +111,8 @@ export default function CheckoutPage() {
                     name="metodoPago" onChange={manejarCambio}
                     className="w-full border-2 border-black p-3 rounded-xl font-bold outline-none bg-white"
                   >
-                    <option value="Transferencia">Transferencia (10% OFF)</option>
-                    <option value="Efectivo">Efectivo al recibir</option>
+                    <option value="Transferencia">Transferencia </option>
+                    <option value="Efectivo">Efectivo (10% OFF)</option>
                     <option value="Tarjeta">Tarjeta de Crédito / Débito</option>
                   </select>
                 </div>
@@ -159,7 +159,7 @@ export default function CheckoutPage() {
         </div>
 
         <footer className="mt-20 text-center py-10 opacity-20">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em]">Desarrollado por Luis Trassani</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em]">Desarrollado por Luis Trassani🚀</p>
         </footer>
 
       </div>

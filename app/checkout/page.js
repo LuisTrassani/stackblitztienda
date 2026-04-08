@@ -149,11 +149,11 @@ export default function CheckoutPage() {
             </div>
 
             <button 
-                onClick={() => window.close()}
-                className="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 hover:opacity-100 transition-opacity"
-            >
-                ← Seguir Comprando
-            </button>
+  onClick={() => window.location.href = '/'} 
+  className="bg-yellow-400 border-4 border-black px-6 py-3 rounded-2xl font-black uppercase italic shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+>
+  ⬅ Seguir comprando
+</button>
           </div>
 
         </div>

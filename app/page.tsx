@@ -193,7 +193,7 @@ export default function Casacon() {
           }`}
       >
         {t}
-        {!tieneStock && <span className="block text-[8px]">no disp</span>}
+        {!tieneStock && <span className="block text-[8px]">❌</span>}
       </button>
     );
   })}

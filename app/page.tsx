@@ -409,7 +409,7 @@ export default function Casacon() {
             <p className="opacity-60 font-bold mb-2 text-yellow-400">
               Ventas por Mayor y Menor
             </p>
-            <p className="font-black text-xl">Somos Juanchi y Luis</p>
+            <p className="font-black text-xl">Somos Juanchy y Luis</p>
             <p className="font-bold text-pink-500">
               Contacto - 3731652931 - luistrassani@gmail.com
             </p>

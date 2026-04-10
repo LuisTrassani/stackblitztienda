@@ -9,6 +9,7 @@ interface Producto {
   imagen_url: string; 
   imagen_url_2?: string;
   imagen_url_3?: string;
+  gen_url_4?: string;
   imagen?: string;
   img?: string;
   cepo?: number;
@@ -319,7 +320,7 @@ export default function Casacon() {
             {/* Imagen de tu tabla */}
             <div className="bg-gray-50 p-2 rounded-xl border border-gray-100">
               <img 
-                src="https://f.fcdn.app/imgs/073f1d/www.mancini.com.uy/mancuy/6698/original/catalogo/12313131232131_12313131232131_1.jpg" 
+                src="https://lstaiadjehagsvyjhgvf.supabase.co/storage/v1/object/sign/CASACON/guia%20de%20talles%20casacon%20(2).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xODliMTNiYy1kMGU3LTQ4NmUtYmNmNi02NWIyMWFhMzE0ZmEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJDQVNBQ09OL2d1aWEgZGUgdGFsbGVzIGNhc2Fjb24gKDIpLnBuZyIsImlhdCI6MTc3NTc5NTU0NiwiZXhwIjoxODA3MzMxNTQ2fQ.MgfFJhoNlAJAINuynM7ukfwKmlrJBo0KZD9QOE6fDys" 
                 alt="Tabla de talles" 
                 className="w-full rounded-lg"
               />

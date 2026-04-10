@@ -111,10 +111,10 @@ export default function Casacon() {
         </div>
       </div>
 
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 p-4">
+      <header className="bg-white border-b-4 border-black sticky top-0 z-50 p-4">
   <div className="max-w-6xl mx-auto flex justify-between items-center h-20 md:h-24">
     
-    {/* LOGO RECORTADO - AHORA SÍ SE VE GRANDE */}
+    {/* LOGO */}
     <div className="h-full flex items-center py-2">
       <img 
         src="https://lstaiadjehagsvyjhgvf.supabase.co/storage/v1/object/sign/CASACON/casaconLOGO1.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xODliMTNiYy1kMGU3LTQ4NmUtYmNmNi02NWIyMWFhMzE0ZmEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJDQVNBQ09OL2Nhc2Fjb25MT0dPMS5wbmciLCJpYXQiOjE3NzU2MjU5NzQsImV4cCI6MTgwNzE2MTk3NH0.dQaw-v8Kt04NxykwRgouQ7qLk0Fm-1TsBQ_1GpUVQsU" 
@@ -123,13 +123,33 @@ export default function Casacon() {
       />
     </div>
 
-    {/* CARRITO A LA DERECHA */}
+    {/* CARRITO REDISEÑADO - AHORA RESALTA SÍ O SÍ */}
     <div 
       onClick={irAlCheckout} 
-      className="bg-black text-white px-5 py-2 md:px-8 md:py-3 rounded-2xl cursor-pointer hover:scale-105 transition-all text-right shadow-[4px_4px_0px_0px_rgba(219,39,119,1)] flex flex-col justify-center"
+      className="group relative cursor-pointer"
     >
-       <span className="text-[10px] font-bold opacity-60 block uppercase leading-none mb-1">Tu Selección 🛒</span>
-       <span className="text-xl md:text-2xl font-black leading-none">${total.toLocaleString('es-AR')}</span>
+      {/* Sombra decorativa trasera (hace que parezca 3D) */}
+      <div className="absolute inset-0 bg-pink-600 rounded-2xl translate-x-1 translate-y-1 group-hover:translate-x-1.5 group-hover:translate-y-1.5 transition-transform"></div>
+      
+      {/* Botón Principal */}
+      <div className="relative bg-yellow-400 border-4 border-black px-4 py-2 md:px-6 md:py-3 rounded-2xl flex items-center gap-3 group-active:translate-x-0.5 group-active:translate-y-0.5 transition-all">
+        <div className="flex flex-col">
+          <span className="text-[9px] font-black uppercase leading-none text-black/60 mb-1">Total Carrito</span>
+          <span className="text-lg md:text-2xl font-black leading-none text-black">
+            ${total.toLocaleString('es-AR')}
+          </span>
+        </div>
+        
+        {/* Icono con burbuja de cantidad si hay productos */}
+        <div className="relative bg-black text-white p-2 rounded-xl">
+          <span className="text-xl md:text-2xl">🛒</span>
+          {carrito.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-pink-600 border-2 border-black text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full animate-bounce">
+              {carrito.reduce((acc, p) => acc + p.cantidad, 0)}
+            </span>
+          )}
+        </div>
+      </div>
     </div>
 
   </div>
@@ -278,7 +298,7 @@ export default function Casacon() {
             <h4 className="font-black italic text-3xl mb-6 uppercase tracking-tighter">Viví la experiencia Misterybox🕵️👀</h4>
             <p className="opacity-60 font-bold mb-2 text-yellow-400">Ventas por Mayor y Menor</p>
             <p className="font-black text-xl">Somos Juanchi y Luis</p>
-            <p className="font-bold text-pink-500">3731652931</p>
+            <p className="font-bold text-pink-500">Contacto - 3731652931 - luistrassani@gmail.com</p>
             <p className="opacity-60 mt-4 italic text-sm text-gray-400">Atención personalizada de fanáticos para fanáticos.</p>
           </div>
 
